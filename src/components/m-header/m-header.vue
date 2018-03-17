@@ -4,3 +4,9 @@
     <h1 class="text"> Chicken Music</h1>
   </div>
 </template>
+<script>
+export default {
+}
+</script>
+<style lang="stylus" scoped>
+</style>
