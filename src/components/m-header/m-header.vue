@@ -12,10 +12,8 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-<<<<<<< HEAD
-=======
-@import '../../common/stylus/variable';
-@import '../../common/stylus/mixin';
+@import '~common/stylus/variable';
+@import '~common/stylus/mixin';
   .m-header
     position: relative
     height: 44px
@@ -45,5 +43,4 @@ export default {
         padding: 12px
         font-size: 20px
         color: $color-theme
->>>>>>> 0f2af592578936753a9300f58ae201de4f47b5c4
 </style>
