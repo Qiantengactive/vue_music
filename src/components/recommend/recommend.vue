@@ -45,6 +45,11 @@ export default {
       })
     },
     _getDiscList () {
+      // getDiscList().then((res) => {
+      //   if (res.code === ERR_Ok) {
+
+      //   }
+      // })
 
     }
   },

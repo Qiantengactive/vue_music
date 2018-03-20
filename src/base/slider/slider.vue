@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <div class="dots">
-      <span class="dot" :class="{active:currentPageIndex ===index }" v-for="(item,index) in dots" :key="index"></span>
+      <span class="dot" :class="{active:currentPageIndex === index }" v-for="(item,index) in dots" :key="index"></span>
     </div>
   </div>
 </template>
@@ -36,15 +36,24 @@ export default {
   },
   mounted () {
     setTimeout(() => {
-      // this._se
-    })
+      this._setSliderWidth()
+      this._initDots()
+      this._initSlider()
+      if (this.autoPlay) {
+        this._play()
+      }
+    }, 20)
   },
   methods: {
     _setSliderWidth (isResize) {
       this.children = this.$refs.sliderGroup.children
       let width = 0
       let sliderWidth = this.$refs.slider.clientWidth
+      console.log(this.children)
+      console.log(this.children.length)
       for (let i = 0; i < this.children.length; i++) {
+        console.log(this.children[i])
+        // alert('for:' + this.children.length)
         let child = this.children[i]
         addClass(child, 'slider-item')
 
@@ -56,7 +65,7 @@ export default {
       }
       this.$refs.sliderGroup.style.width = width + 'px'
     },
-    _initslider () {
+    _initSlider () {
       this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
