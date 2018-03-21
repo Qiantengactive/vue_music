@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div class="slider-wrapper">
+    <div v-if="recommends.length" class="slider-wrapper">
       <slider>
         <div v-for="(item,index) in recommends" :key="index">
           <a :href="item.linkUrl">
@@ -37,10 +37,13 @@ export default {
     },
     _getRecommend () {
       getRecommend().then((res) => {
-        console.log(res)
+        // console.log('getRecommend' + res)
         if (res.code === ERR_OK) {
           this.recommends = res.data.slider
+          console.log('getRecommend')
           console.log(this.recommends)
+          console.log(this.recommends.length)
+          console.log('getRecommend')
         }
       })
     },
