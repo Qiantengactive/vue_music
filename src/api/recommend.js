@@ -5,16 +5,19 @@ import axios from 'axios'
 export function getRecommend () {
   const url =
     'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+
   const data = Object.assign({}, commonParams, {
     platform: 'h5',
     uin: 0,
     needNewCode: 1
   })
+
   return jsonp(url, data, options)
 }
 
 export function getDiscList () {
-  const url = 'api/getDiscList'
+  const url = '/api/getDiscList'
+
   const data = Object.assign({}, commonParams, {
     platform: 'yqq',
     hostUin: 0,
@@ -24,8 +27,9 @@ export function getDiscList () {
     needNewCode: 0,
     categoryId: 10000000,
     rnd: Math.random(),
-    format: 'json'
+    format: 'jsonp'
   })
+
   return axios
     .get(url, {
       params: data
@@ -46,8 +50,7 @@ export function getSongList (disstid) {
     onlysong: 0,
     platform: 'yqq',
     hostUin: 0,
-    needNewCode: 0,
-    g_tk: 759768811
+    needNewCode: 0
   })
 
   return jsonp(url, data, options)

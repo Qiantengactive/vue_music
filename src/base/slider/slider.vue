@@ -78,20 +78,20 @@ export default {
       this.slider.on('scrollEnd', () => {
         /* 获取当前页面第几个子元素 */
         let pageIndex = this.slider.getCurrentPage().pageX
-        console.log('pageIndex:' + pageIndex)
+        // console.log('pageIndex:' + pageIndex)
         /* 循环下减1 */
         if (this.loop) {
           pageIndex -= 1
         }
         this.currentPageIndex = pageIndex
-        console.log('减去后currentPageIndex' + this.currentPageIndex)
+        // console.log('减去后currentPageIndex' + this.currentPageIndex)
         if (this.autoPlay) {
           // clearTimeout(this.timer)
           this._play()
         }
       })
       this.slider.on('beforeScrollStart', () => {
-        console.log('beforeScrollStart')
+        // console.log('beforeScrollStart')
         if (this.autoPlay) {
           clearTimeout(this.timer)
         }
@@ -102,10 +102,10 @@ export default {
     },
     _play () {
       let pageIndex = this.currentPageIndex + 1
-      console.log('currentPageIndex+1:' + pageIndex)
+      // console.log('currentPageIndex+1:' + pageIndex)
       if (this.loop) {
         pageIndex += 1
-        console.log('currentPageIndex+1:' + pageIndex)
+        // console.log('currentPageIndex+1:' + pageIndex)
       }
       this.timer = setTimeout(() => {
         this.slider.goToPage(pageIndex, 0, 400)
@@ -121,6 +121,14 @@ export default {
         this._play()
       }
     }, 20)
+
+    window.addEventListener('resize', () => {
+      if (!this.slider) {
+        return
+      }
+      this._setSliderWidth(true)
+      this.slider.refresh()
+    })
   },
   activated () {
     // keep-alive组件激活时调用。
