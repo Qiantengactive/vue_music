@@ -1,12 +1,14 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div class="recommend-content">
+    <v-scroll class="recommend-content" ref="scroll" :data="discList">
       <div>
         <div v-if="recommends.length" class="slider-wrapper">
           <slider>
             <div v-for="(item,index) in recommends" :key="index">
               <a :href="item.linkUrl">
-                <img :src="item.picUrl">
+                <!-- 多张图片加载会触发多个loadImage事件 -->
+                <!--  class="needsclick" 不会拦截click点击过程 -->
+                <img :src="item.picUrl" @load="loadImage" class="needsclick">
               </a>
             </div>
           </slider>
@@ -16,7 +18,7 @@
           <ul>
             <li @click="selectItem(item)" v-for="(item,index) in discList" :key="index" class="item">
               <div class="icon">
-                <img width="60" height="60" alt="" :src="item.imgurl">
+                <img width="60" height="60" alt="" v-lazy="item.imgurl">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.creator.name"></h2>
@@ -29,11 +31,12 @@
       <div class="loading-container" v-show="!discList.length">
         <v-loading></v-loading>
       </div>
-    </div>
+    </v-scroll>
   </div>
 </template>
 <script>
 import Slider from 'base/slider/slider'
+import Scroll from 'base/scroll/scroll'
 import loading from 'base/loading/loading'
 import { getRecommend, getDiscList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
@@ -45,15 +48,23 @@ export default {
     }
   },
   created () {
+    // setTimeout(() => {
     this._getRecommend()
-    this._getDiscList()
+    // }, 1000)
+    setTimeout(() => {
+      this._getDiscList()
+    }, 1000)
   },
   methods: {
     handlePlaylist (playList) {
 
     },
     loadImage () {
-
+      /* 如果不存在 只执行一次 设置标志位 */
+      if (!this.checkLoaded) {
+        this.$refs.scroll.refresh()
+        this.checkLoaded = true
+      }
     },
     selectItem (item) {
 
@@ -76,7 +87,8 @@ export default {
   },
   components: {
     Slider,
-    'v-loading': loading
+    'v-loading': loading,
+    'v-scroll': Scroll
   }
 
 }

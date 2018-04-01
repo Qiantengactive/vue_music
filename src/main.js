@@ -6,12 +6,12 @@ import App from './App'
 import router from './router'
 import fastclick from 'fastclick' // 处理移动端300毫秒延迟
 import 'common/stylus/index.styl'
-// import VueLazyLoad from 'vue-lazyload'
+import VueLazyLoad from 'vue-lazyload'
 
 fastclick.attach(document.body)
-// Vue.use(VueLazyLoad, {
-//   loading: require('common/')
-// })
+Vue.use(VueLazyLoad, {
+  loading: require('common/image/default.png')
+})
 
 Vue.config.productionTip = false
 

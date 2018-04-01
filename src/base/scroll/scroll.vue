@@ -8,6 +8,7 @@ import BScroll from 'better-scroll'
 
 export default {
   props: {
+    // 监听事件
     probeType: {
       type: Number,
       default: 1
