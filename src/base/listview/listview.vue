@@ -1,16 +1,21 @@
 <template>
-  <v-scroll></v-scroll>
+  <v-scroll @scroll="listenScroll"></v-scroll>
 </template>
 <script>
-import scroll from '@/base/scroll/scroll.vue'
+import scroll from '@/base/scroll/scroll'
 export default {
   data () {
+    return {}
+  },
+  methods: {
+    listenScroll () { }
   },
   components: {
     'v-scroll': scroll
   }
 }
 </script>
+
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~common/stylus/variable';
 

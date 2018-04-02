@@ -7,7 +7,7 @@
 <script>
 import listView from 'base/listview/listview'
 import { getSingerList } from 'api/singer'
-import ERR_OK from '@/api/config'
+import { ERR_OK } from '@/api/config'
 export default {
   data () {
     return {
@@ -27,7 +27,7 @@ export default {
     _getSingerList () {
       getSingerList().then(res => {
         if (res.code === ERR_OK) {
-
+          this.singers = res.data.list
         }
       })
     },
