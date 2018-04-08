@@ -1,17 +1,57 @@
 <template>
-  <v-scroll @scroll="listenScroll"></v-scroll>
+  <v-scroll @scroll="listenScroll" class="listview" ref="listview">
+    <ul>
+      <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup"></li>
+      <h2 class="list-group-titile">{{group.title}</h2>
+      <ul>
+        <li @click="selectItem(item)" v-for="(item,index) in group.items" :key="index" class="item-group-item">
+          <img class="avatar" v-lazy="item.avatar">
+          <span class="name">{{item.name}}</span>
+        </li>
+      </ul>
+      <!--
+        touchstart //手指触碰屏幕
+        touchmove //手指在屏幕上滑动
+        touchend //手指离开屏幕
+      -->
+      <div @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove" @touchend.stop class="list-shortcut">
+        <ul>
+          <li v-for="(item,index) in shortcutList" :key="index" :data-index="index" :class="{'current':currentIndex===index}" class="item">{{item}}</li>
+        </ul>
+      </div>
+      <div v-show="!data.length" class="loading-container">
+        <v-loading></v-loading>
+      </div>
+    </ul>
+  </v-scroll>
 </template>
 <script>
 import scroll from '@/base/scroll/scroll'
+import loading from '@/base/loading/loading'
 export default {
+  props: {
+    data: {
+      type: Array,
+      default: Array
+    }
+  },
   data () {
     return {}
   },
+  created () {
+    this.probeType = 3
+    this.listenScroll = true
+    this.touch = {}
+    this.listHeight = []
+  },
   methods: {
-    listenScroll () { }
+    listenScroll () { },
+    onShortcutTouchStart () { },
+    onShortcutTouchMove () { }
   },
   components: {
-    'v-scroll': scroll
+    'v-scroll': scroll,
+    'v-loading': loading
   }
 }
 </script>

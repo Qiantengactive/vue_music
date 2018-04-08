@@ -2,6 +2,7 @@
   <div class="singer" ref="singer">
     <v-listview @select="selectSinger" :data="singers" ref="list"></v-listview>
     <router-view></router-view>
+    <div @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove" @touchend.stop></div>
   </div>
 </template>
 <script>
@@ -32,7 +33,6 @@ export default {
       })
     },
     _normalizeSinger (list) {
-
     }
   },
   components: {
