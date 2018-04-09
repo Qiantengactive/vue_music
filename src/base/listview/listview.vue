@@ -2,7 +2,7 @@
   <v-scroll @scroll="listenScroll" class="listview" ref="listview">
     <ul>
       <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup"></li>
-      <h2 class="list-group-titile">{{group.title}</h2>
+      <h2 class="list-group-titile">{{group.title}}</h2>
       <ul>
         <li @click="selectItem(item)" v-for="(item,index) in group.items" :key="index" class="item-group-item">
           <img class="avatar" v-lazy="item.avatar">
@@ -28,6 +28,10 @@
 <script>
 import scroll from '@/base/scroll/scroll'
 import loading from '@/base/loading/loading'
+import { getData } from 'common/js/dom'
+// const TITLE_HEIGHT = 30
+// const ANCHOR_HRIGHT = 18
+
 export default {
   props: {
     data: {
@@ -35,27 +39,63 @@ export default {
       default: Array
     }
   },
-  data () {
-    return {}
-  },
   created () {
     this.probeType = 3
     this.listenScroll = true
     this.touch = {}
     this.listHeight = []
   },
+  data () {
+    return {
+      scrollY: -1,
+      currentIndex: 0,
+      diff: -1
+    }
+  },
   methods: {
+    selectItem (item) {
+      this.$emit('select', item)
+    },
+    onShortcutTouchStart (e) {
+      let anchorIndex = getData(e.target, 'index')
+      let firstTouch = e.touches[0]
+      this.touch.y1 = firstTouch.pageY
+      this.touch.anchorIndex = anchorIndex
+      this._scrollTo(anchorIndex)
+    },
     listenScroll () { },
-    onShortcutTouchStart () { },
-    onShortcutTouchMove () { }
+    onShortcutTouchMove () { },
+    _scrollTo (index) {
+      if (!index && index !== 0) {
+        return
+      }
+      if (index < 0) {
+        index = 0
+      } else if (index > this.listHeight.length - 2) {
+        index = this.listHeight.length - 2
+      }
+    }
   },
   components: {
     'v-scroll': scroll,
     'v-loading': loading
+  },
+  computed: {
+    /* 返回字母前缀 */
+    shortcurList () {
+      return this.data.map(group => {
+        // return group.title.substr(0, 1)
+      })
+    },
+    fixedTitle () {
+      if (this.scrollY > 0) {
+        return ''
+      }
+      return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
+    }
   }
 }
 </script>
-
 <style scoped lang="stylus" rel="stylesheet/stylus">
 @import '~common/stylus/variable';
 
