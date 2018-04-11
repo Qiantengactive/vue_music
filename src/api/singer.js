@@ -14,7 +14,10 @@ export function getSingerList () {
     platform: 'yqq',
     g_tk: 759768811
   })
-  return jsonp(url, data, options)
+  console.log('getSingerList')
+  let obj = jsonp(url, data, options)
+  console.log(obj)
+  return obj
 }
 
 export function getSingerDetail (singerId) {

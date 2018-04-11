@@ -1,13 +1,13 @@
 <template>
-  <v-scroll @scroll="listenScroll" class="listview" ref="listview">
+  <!-- <v-scroll @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="listview" :data="dataSingers" ref="listview"> -->
     <ul>
-      <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup"></li>
-      <h2 class="list-group-titile">{{group.title}}</h2>
+      <li v-for="(group,index) in dataSingers" :key="index" class="list-group" ref="listGroup"></li>
+      <!-- <h2 class="list-group-titile">{{group.title}}</h2> -->
       <ul>
-        <li @click="selectItem(item)" v-for="(item,index) in group.items" :key="index" class="item-group-item">
+        <!-- <li @click="selectItem(item)" v-for="(item,index) in group.items" :key="index" class="item-group-item">
           <img class="avatar" v-lazy="item.avatar">
           <span class="name">{{item.name}}</span>
-        </li>
+        </li> -->
       </ul>
       <!--
         touchstart //手指触碰屏幕
@@ -19,11 +19,11 @@
           <li v-for="(item,index) in shortcutList" :key="index" :data-index="index" :class="{'current':currentIndex===index}" class="item">{{item}}</li>
         </ul>
       </div>
-      <div v-show="!data.length" class="loading-container">
+      <div v-show="!dataSingers.length" class="loading-container">
         <v-loading></v-loading>
       </div>
     </ul>
-  </v-scroll>
+  <!-- </v-scroll> -->
 </template>
 <script>
 import scroll from '@/base/scroll/scroll'
@@ -34,9 +34,11 @@ import { getData } from 'common/js/dom'
 
 export default {
   props: {
-    data: {
+    dataSingers: {
       type: Array,
-      default: Array
+      default: function () {
+        return []
+      }
     }
   },
   created () {
@@ -63,7 +65,6 @@ export default {
       this.touch.anchorIndex = anchorIndex
       this._scrollTo(anchorIndex)
     },
-    listenScroll () { },
     onShortcutTouchMove () { },
     _scrollTo (index) {
       if (!index && index !== 0) {
@@ -74,6 +75,9 @@ export default {
       } else if (index > this.listHeight.length - 2) {
         index = this.listHeight.length - 2
       }
+    },
+    scroll (pos) {
+      this.scrollY = pos.y
     }
   },
   components: {
@@ -82,10 +86,11 @@ export default {
   },
   computed: {
     /* 返回字母前缀 */
-    shortcurList () {
-      return this.data.map(group => {
-        // return group.title.substr(0, 1)
-      })
+    shortcutList () {
+      // return this.data.map(group => {
+      //   // return group.title.substr(0, 1)
+      // })
+      return [111]
     },
     fixedTitle () {
       if (this.scrollY > 0) {
@@ -93,6 +98,11 @@ export default {
       }
       return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
     }
+  },
+  mounted () {
+    console.log(11111111)
+    console.log(this.dataSingers)
+    console.log(1111111)
   }
 }
 </script>

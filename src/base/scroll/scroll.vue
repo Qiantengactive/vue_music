@@ -90,6 +90,7 @@ export default {
   },
   watch: {
     data () {
+      alert(1)
       setTimeout(() => {
         this.refresh()
       }, this.refreshDelay)
