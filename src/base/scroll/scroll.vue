@@ -52,10 +52,11 @@ export default {
         probeType: this.probeType,
         click: this.click
       })
-
+      /* 监听变化 */
       if (this.listenScroll) {
         let me = this
         this.scroll.on('scroll', (pos) => {
+          console.log(pos)
           me.$emit('scroll', pos)
         })
       }
@@ -90,7 +91,6 @@ export default {
   },
   watch: {
     data () {
-      alert(1)
       setTimeout(() => {
         this.refresh()
       }, this.refreshDelay)

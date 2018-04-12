@@ -1,7 +1,7 @@
 <template>
   <div class="singer" ref="singer">
-    <v-listview @select="selectSinger" :dataingers="singers" ref="list"></v-listview>
-    <router-view></router-view>
+    <v-listview @select="selectSinger" :dataSingers="singers" ref="list"></v-listview>
+    <!-- <router-view></router-view> -->
     <!-- <div @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove" @touchend.stop></div> -->
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
         // console.log(res)
         if (res.code === ERR_OK) {
           this.singers = this._normalizeSinger(res.data.list)
-          // console.log(this.singers)
+          console.log(this.singers)
+          console.log(this.singers.length)
         }
       })
     },
@@ -106,7 +107,7 @@ export default {
       // console.log(ret)
       // console.log('ret')
       let obj = hot.concat(ret)
-      console.log(obj)
+      // console.log(obj)
       return obj
     }
   },
