@@ -36,7 +36,7 @@
 import scroll from '@/base/scroll/scroll'
 import loading from '@/base/loading/loading'
 import { getData } from 'common/js/dom'
-// const TITLE_HEIGHT = 30
+const TITLE_HEIGHT = 30
 // const ANCHOR_HRIGHT = 18
 export default {
   props: {
@@ -72,6 +72,16 @@ export default {
       this._scrollTo(anchorIndex)
     },
     onShortcutTouchMove () { },
+    refresh () {
+      this.$refs.listview.refresh()
+    },
+    scroll (pos) {
+      this.scrollY = pos.y
+    },
+    _calculateHeight () {
+      this.listHeight = []
+      const list = this.$refs.listGroup
+    },
     _scrollTo (index) {
       if (!index && index !== 0) {
         return
@@ -81,7 +91,8 @@ export default {
       } else if (index > this.listHeight.length - 2) {
         index = this.listHeight.length - 2
       }
-    },
+      this.scrollY = -this.listHeight[index]
+      this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)    },
     /* 子传递给父 滑动屏幕触发listenScroll */
     scroll (pos) {
       this.scrollY = pos.y
@@ -124,10 +135,27 @@ export default {
         this.currentIndex = 0
         return
       };
+      /* 中间部分滚动 */
+      for (let i = 0; i < listHeight.length; i++) {
+        let height1 = listHeight[i]
+        let height2 = listHeight[i + 1]
+        if (-newY >= height1 && -newY < height2) {
+          this.currentIndex = i
+          this.diff = height2 + newY
+          return
+        }
+        /* 当滚动到底部 且-newY大于最后一个元素的上限 */
+        this.currentIndex = listHeight.length - 2
+      }
+    },
+    diff (newVal) {
+      let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+      if (this.fixedTop === fixedTop) {
+        return
+      }
+      this.fixedTop = fixedTop
+      this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`
     }
-    // for (let i = 0; i<this.listHeight.length - 1; i++) {
-
-    // }
   }
 }
 </script>
